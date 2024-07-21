@@ -1,26 +1,44 @@
 pipeline {
-    agent any 
+    agent any
+
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AKIAZI2LDEWXCFEYF6MW')
+        AWS_SECRET_ACCESS_KEY = credentials('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')
+    }
+
     stages {
-        stage('checkout') {
+        stage('Checkout') {
             steps {
                 git 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git'
             }
         }
-        stage('terraform init') {
+
+        stage('Terraform Init') {
             steps {
-                bat 'C:/Users/LENOVO/Downloads/terraform_1.9.2_windows_386/terraform.exe init'
+                script {
+                    def result = bat(script: 'terraform init', returnStatus: true)
+                    if (result != 0) {
+                        error "Terraform init failed"
+                    }
+                }
             }
         }
-        stage('terraform plan') {
+
+        stage('Terraform Apply') {
             steps {
-                bat 'C:/Users/LENOVO/Downloads/terraform_1.9.2_windows_386/terraform.exe plan'
-            }
-        }
-        stage('terraform apply') {
-            steps {
-                bat 'C:/Users/LENOVO/Downloads/terraform_1.9.2_windows_386/terraform.exe apply -auto-approve' 
+                script {
+                    def result = bat(script: 'terraform apply -auto-approve', returnStatus: true)
+                    if (result != 0) {
+                        error "Terraform apply failed"
+                    }
+                }
             }
         }
     }
-   
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
 }
