@@ -8,17 +8,17 @@ pipeline {
         }
         stage('terraform init') {
             steps {
-                bat 'C:\Users\LENOVO\Downloads\terraform_1.9.2_windows_386\terraform.exe init'
+                bat 'C:/Users/LENOVO/Downloads/terraform_1.9.2_windows_386/terraform.exe init'
             }
         }
         stage('terraform plan') {
             steps {
-                bat 'C:\Users\LENOVO\Downloads\terraform_1.9.2_windows_386\terraform.exe plan'
+                bat 'C:/Users/LENOVO/Downloads/terraform_1.9.2_windows_386/terraform.exe plan'
             }
         }
         stage('terraform apply') {
             steps {
-                bat 'C:\Users\LENOVO\Downloads\terraform_1.9.2_windows_386\terraform.exe apply -auto-approve' 
+                bat 'C:/Users/LENOVO/Downloads/terraform_1.9.2_windows_386/terraform.exe apply -auto-approve' 
             }
         }
     }
