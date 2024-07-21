@@ -26,7 +26,7 @@ This document provides step-by-step instructions to manually create an EC2 insta
    - In the EC2 Dashboard, click the "Launch Instance" button.
 
 3. **Choose an Amazon Machine Image (AMI):**
-   - Select an AMI based on your requirements. For this example, you can select the Amazon Linux 2 AMI.
+   - Select an AMI based on your requirements. For this example, you can select the ubuntu.
 
 4. **Choose an Instance Type:**
    - Select an instance type that meets your needs. The `t2.micro` instance type is often suitable for general purposes and is included in the AWS Free Tier.
@@ -45,14 +45,14 @@ This document provides step-by-step instructions to manually create an EC2 insta
      |--------------|-------------------|
      | Name         | demo              |
      | Environment  | Development       |
-     | Project      | YourProjectName   |
-     | Owner        | YourName          |
-     | Department   | YourDepartment    |
-     | CostCenter   | YourCostCenter    |
-     | Application  | YourApplication   |
-     | Release      | YourReleaseNumber |
-     | Version      | YourVersionNumber |
-     | Team         | YourTeamName      |
+     | Project      | ageas             |
+     | Owner        | lavanya           |
+     | Department   | banking           |
+     | CostCenter   | tcs               |
+     | Application  | loan              |
+     | Release      | 1.0               |
+     | Version      | v.2.0.0           |
+     | Team         | devops-team       |
 
    - Example:
      - Key: `Name`
