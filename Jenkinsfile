@@ -1,44 +1,75 @@
 pipeline {
     agent any
-
+    
     environment {
-        AWS_ACCESS_KEY_ID = credentials('AKIAZI2LDEWXCFEYF6MW')
-        AWS_SECRET_ACCESS_KEY = credentials('kesChx6clmc7AVYp8bVTaHGdD2jZ3rUzjyuHvgyn')
+        // Define environment variables
+        AWS_REGION = 'eu-north-1' // Change to your AWS region
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git'
             }
         }
-
-        stage('Terraform Init') {
+        
+        stage('Terraform init') {
             steps {
                 script {
-                    def result = bat(script: 'terraform init', returnStatus: true)
-                    if (result != 0) {
-                        error "Terraform init failed"
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                        bat 'terraform init'
                     }
                 }
             }
         }
-
-        stage('Terraform Apply') {
+        
+        stage('Terraform plan') {
             steps {
                 script {
-                    def result = bat(script: 'terraform apply -auto-approve', returnStatus: true)
-                    if (result != 0) {
-                        error "Terraform apply failed"
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                        bat 'terraform plan'
+                    }
+                }
+            }
+        }
+        
+        stage('Terraform apply') {
+            steps {
+                script {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                        bat 'terraform apply -auto-approve'
                     }
                 }
             }
         }
     }
-
+    
     post {
         always {
+            // Clean up
             cleanWs()
+        }
+        
+        failure {
+            script {
+                // Send notifications on failure
+                slackSend (
+                    channel: '#your-channel',
+                    color: '#FF0000',
+                    message: "Build ${currentBuild.fullDisplayName} failed. Check Jenkins for details."
+                )
+            }
+        }
+        
+        success {
+            script {
+                // Send notifications on success
+                slackSend (
+                    channel: '#your-channel',
+                    color: '#00FF00',
+                    message: "Build ${currentBuild.fullDisplayName} completed successfully."
+                )
+            }
         }
     }
 }
