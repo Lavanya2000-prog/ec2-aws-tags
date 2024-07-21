@@ -1,22 +1,32 @@
+
 pipeline {
-    agent any 
+    agent any
+
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AKIAZI2LDEWXKCR3QY5E')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+    }
+
     stages {
-        stage('checkout') {
+        stage('Checkout') {
             steps {
-                git url : 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git', branch:'master'
+                git 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git'
             }
         }
-        stage('terraform init') {
+
+        stage('Terraform Init') {
             steps {
                 bat 'terraform init'
             }
         }
-        stage('terraform apply') {
+
+        stage('Terraform Apply') {
             steps {
-                bat 'terraform apply -auto-approve' 
+                bat 'terraform apply -auto-approve'
             }
         }
     }
+
     post {
         always {
             cleanWs()
