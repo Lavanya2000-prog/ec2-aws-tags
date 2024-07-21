@@ -43,33 +43,4 @@ pipeline {
             }
         }
     }
-    
-    post {
-        always {
-            // Clean up
-            cleanWs()
-        }
-        
-        failure {
-            script {
-                // Send notifications on failure
-                slackSend (
-                    channel: '#your-channel',
-                    color: '#FF0000',
-                    message: "Build ${currentBuild.fullDisplayName} failed. Check Jenkins for details."
-                )
-            }
-        }
-        
-        success {
-            script {
-                // Send notifications on success
-                slackSend (
-                    channel: '#your-channel',
-                    color: '#00FF00',
-                    message: "Build ${currentBuild.fullDisplayName} completed successfully."
-                )
-            }
-        }
-    }
 }
