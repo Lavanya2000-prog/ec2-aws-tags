@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git ('https://github.com/Lavanya2000-prog/ec2-aws-tags.git')
+                git 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git'
             }
         }
         stage('terraform init') {
