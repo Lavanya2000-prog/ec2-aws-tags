@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git url : 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git'
+                git url : 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git', branch:'master'
             }
         }
         stage('terraform init') {
             steps {
-                sh 'terraform init'
+                bat 'terraform init'
             }
         }
         stage('terraform apply') {
             steps {
-                sh 'terraform apply -auto-approve' 
+                bat 'terraform apply -auto-approve' 
             }
         }
     }
