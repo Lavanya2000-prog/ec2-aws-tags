@@ -1,0 +1,30 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Checkout@1
+    inputs:
+      repository: 'https://github.com/Lavanya2000-prog/ec2-aws-tags.git'
+
+  - task: UseTerraform@0
+    inputs:
+      command: 'init'
+      workingDirectory: '$(Build.SourcesDirectory)'
+
+  - task: UseTerraform@0
+    inputs:
+      command: 'plan'
+      workingDirectory: '$(Build.SourcesDirectory)'
+    displayName: 'Terraform Plan'
+
+  - task: UseTerraform@0
+    inputs:
+      command: 'apply'
+      workingDirectory: '$(Build.SourcesDirectory)'
+      additionalArgs: '-auto-approve'
+    displayName: 'Terraform Apply'
